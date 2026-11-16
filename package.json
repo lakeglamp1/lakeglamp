@@ -1,0 +1,7 @@
+{
+  "name": "lakeglamp-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LakeGlamp — responsive static landing page",
+  "scripts": {"dev": "node server.mjs", "check": "node --check dist/app.js"}
+}
