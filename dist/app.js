@@ -145,3 +145,21 @@ document.querySelector('#lightbox-next').addEventListener('click',()=>showLightb
 document.addEventListener('keydown', e=>{if(e.key!=='ArrowRight' && e.key!=='ArrowLeft') return;const delta=e.key==='ArrowRight'?1:-1;if(lightbox.open){e.preventDefault();showLightboxPhoto(lightboxIndex+delta);}else if(houseDialog.open){e.preventDefault();showHousePhoto(housePhotoIndex+delta);}});
 renderGallery();
 document.querySelector('#year').textContent = new Date().getFullYear();
+
+// Seasonal decoration stays local to the offer and can be paused.
+const holidayCard=document.querySelector('.holiday-card');
+const holidayMotion=document.querySelector('.holiday-motion');
+if(holidayCard&&holidayMotion){
+  const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+  let holidayPaused=false;
+  try{holidayPaused=localStorage.getItem('lakeglamp-holiday-paused')==='true';}catch{}
+  function updateHolidayMotion(){
+    const enabled=!holidayPaused&&!reducedMotion.matches;
+    holidayCard.dataset.motion=enabled?'on':'off';
+    holidayMotion.setAttribute('aria-pressed',String(enabled));
+    holidayMotion.textContent=enabled?'Выключить снег и огоньки':'Включить снег и огоньки';
+  }
+  holidayMotion.addEventListener('click',()=>{holidayPaused=!holidayPaused;try{localStorage.setItem('lakeglamp-holiday-paused',String(holidayPaused));}catch{}updateHolidayMotion();});
+  reducedMotion.addEventListener('change',updateHolidayMotion);
+  updateHolidayMotion();
+}
