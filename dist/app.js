@@ -20,6 +20,7 @@ const houses = {
   light: {name: 'Белый Бохо', description: 'Светлый двухуровневый домик с панорамным остеклением. Внизу — гостиная с диваном, кухня и санузел с душем. Под крышей — уютная спальня. На террасе — кресла для неспешного отдыха.', photos: [ ['light-living', 'Гостиная с панорамными окнами'], ['light-bedroom', 'Спальня под крышей'], ['light-kitchen', 'Кухня и обеденная зона'], ['light-bathroom', 'Душевая кабина и санузел'], ['terrace-light', 'Терраса Белого Бохо'] ]},
   wood: {name: 'Лофт', description: 'Двухуровневый домик с отделкой из натурального дерева. Гостиная с диваном, своя кухня и санузел с душем — на первом уровне, спальня — под скатами крыши. Большие окна и деревянная терраса добавляют ощущение простора.', photos: [ ['wood-living', 'Гостиная с деревянной отделкой'], ['wood-bedroom', 'Спальня на втором уровне'], ['wood-kitchen', 'Кухня и обеденная зона'], ['wood-bathroom', 'Душевая кабина и санузел'], ['terrace', 'Терраса домика Лофт'] ]}
 };
+Object.assign(houses, {"sauna":{"name":"Баня на дровах","description":"Парная с дровяной печью, душевая и комната отдыха. Стоимость и время посещения согласуем при бронировании.","photos":[["spa-sauna-1","Парная с дровяной печью"],["spa-sauna-2","Баня снаружи"],["spa-sauna-3","Душевая бани"],["spa-sauna-4","Комната отдыха"]]},"tub":{"name":"Банный чан","description":"Банный чан под открытым небом рядом с озером. Стоимость и время подготовки уточняйте перед приездом.","photos":[["spa-tub-1","Чан с видом на озеро"],["spa-tub-2","Банный чан крупным планом"],["spa-tub-3","Чан под открытым небом"]]}});
 const gallery = [
   {image:'light-living', caption:'Светлая гостиная · Белый Бохо', category:'interior'},
   {image:'terrace', caption:'Утро на террасе · Лофт', category:'outside'},
@@ -72,8 +73,9 @@ function updateDeparture() {departure.min = nextDay(arrival.value || localDate(n
 arrival.min = localDate(new Date());
 arrival.addEventListener('change',updateDeparture);
 function openBooking(key) {
+  if(key==='sauna'||key==='tub') document.querySelector('#booking-form [name="'+key+'"]').checked=true;
   closeMenu();
-  document.querySelector('#booking-house').value = houses[key]?.name || 'Любой домик';
+  document.querySelector('#booking-house').value = (key==='light'||key==='wood') ? houses[key].name : 'Любой домик';
   document.querySelector('#booking-error').textContent = '';
   arrival.min = localDate(new Date());
   updateDeparture();
@@ -108,6 +110,8 @@ function showHousePhoto(index) {
 function openHouse(key) {
   activeHouse = key;
   const house = houses[key];
+  document.querySelector('#house-dialog .eyebrow').textContent=(key==='sauna'||key==='tub')?'БАНЯ И ЧАН':'ВАШ ДОМ НА ПРИРОДЕ';
+  document.querySelector('#house-book').textContent=(key==='sauna'||key==='tub')?'Уточнить стоимость и время ↗':'Узнать свободные даты ↗';
   document.querySelector('#house-detail-title').textContent = house.name;
   document.querySelector('#house-detail-description').textContent = house.description;
   const thumbnails = document.querySelector('#house-thumbnails');

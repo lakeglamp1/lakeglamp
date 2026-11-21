@@ -81,3 +81,5 @@ body{font-size:16px;-webkit-font-smoothing:antialiased}h1,h2,h3{font-family:var(
 :root .button{color:var(--action-ink)}:root .button:hover{background:var(--action-hover);color:var(--action-ink)}
 :root .button-outline,:root .contact-buttons>.button,:root .contact-buttons>.text-link{color:var(--secondary-ink)}
 :root .button-outline:hover,:root .contact-buttons>.button:hover,:root .contact-buttons>.text-link:hover{background:var(--line);color:var(--secondary-ink)}
+
+.spa-section{padding-top:30px}.spa-section .house-image{height:370px}.moments-grid{grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:650px){.spa-section .house-image{height:300px}.spa-section .house-actions{gap:12px}}
